@@ -1,0 +1,7 @@
+#adminUsersTable {
+	font-family: 'Roboto', sans-serif;
+}
+#adminUsersTable > thead {
+	font-family: 'Inter', sans-serif !important;
+	font-weight: 700;
+}

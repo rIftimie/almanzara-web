@@ -1,0 +1,21 @@
+nav > div {
+	font-family: 'Castoro', serif;
+}
+nav > ul {
+	font-family: 'Roboto', sans-serif;
+}
+nav > ul > li {
+	font-size: 0.9rem;
+}
+
+.dropdown-content {
+	font-size: 0.7rem;
+}
+
+.dropdown-content > :last-child {
+	font-size: 0.6rem;
+}
+/* .dropdown:hover .dropdown-content {
+	visibility: visible;
+	display: flex;
+} */
