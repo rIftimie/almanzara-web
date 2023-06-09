@@ -81,7 +81,7 @@ export async function findUserById(res, connection, userId) {
 	});
 }
 
-export async function deleteUsers(res, connection, userIds) {
+export async function deleteUser(res, connection, userIds) {
 	const query =
 		'UPDATE users SET deleted_at = NOW() WHERE id IN (' +
 		userIds.toString() +

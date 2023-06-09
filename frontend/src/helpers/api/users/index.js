@@ -45,9 +45,9 @@ export async function updateUser(user) {
 	}
 }
 
-export async function deleteUsers(userIds) {
+export async function deleteUser(userIds) {
 	try {
-		const url = endPoint + '/api/users/';
+		const url = endPoint + '/api/user/';
 
 		const response = await fetch(url, {
 			method: 'DELETE',

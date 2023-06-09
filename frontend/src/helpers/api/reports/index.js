@@ -2,7 +2,7 @@ const endPoint = import.meta.env.VITE_API_URL;
 
 export async function createReport(report) {
 	try {
-		const url = endPoint + '/api/reports';
+		const url = endPoint + '/api/report';
 
 		const response = await fetch(url, {
 			method: 'PUT',

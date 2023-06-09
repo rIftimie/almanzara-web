@@ -1,18 +1,17 @@
-import { logIn } from '../controllers/AuthController.js';
+import { getAllUsers } from '../controllers/UserController.js';
 
 import { pool } from '../database/index.js';
 
 import express from 'express';
 const router = express.Router();
 
-// POST: Log in User
-router.post('/api/auth', async (req, res) => {
-	const { username, password } = req.body;
-
+// GET: Users[]
+router.get('/', async (req, res) => {
 	pool.getConnection(function (err, connection) {
 		if (err) throw err; // not connected!
 
-		logIn(connection, username, password, res);
+		// Use the connection
+		getAllUsers(res, connection);
 	});
 });
 

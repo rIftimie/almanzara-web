@@ -1,5 +1,5 @@
 import { formatDate } from 'src/helpers/';
-import { deleteUsers } from 'src/helpers/api/users';
+import { deleteUser } from 'src/helpers/api/users';
 import { useNavigate } from 'react-router-dom';
 
 import './UsersTable.css';
@@ -13,8 +13,8 @@ const UsersTable = ({ handleUsers }) => {
 
 	const navigate = useNavigate();
 
-	async function handleDeleteUsers() {
-		// const response = await deleteUsers(userIds);
+	async function handledeleteUser() {
+		// const response = await deleteUser(userIds);
 	}
 
 	function handleOnClickRow(id) {

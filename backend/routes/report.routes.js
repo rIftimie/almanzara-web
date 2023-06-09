@@ -1,52 +1,42 @@
 import {
-	createUser,
-	deleteUser,
-	findUserById,
-	updateUser,
-} from '../controllers/UserController.js';
+	createReport,
+	findReportById,
+	updateReport,
+} from '../controllers/ReportsController.js';
 
 import { pool } from '../database/index.js';
 
 import express from 'express';
+
 const router = express.Router();
 
-// PUT: User{}
+// PUT: Report{}
 router.put('/', async (req, res) => {
 	pool.getConnection(function (err, connection) {
 		if (err) throw err; // not connected!
 
 		// Use the connection
-		createUser(res, connection, req.body);
+		createReport(res, connection, req.body);
 	});
 });
 
-// GET: User{}
+// GET: Report{}
 router.get('/:id', async (req, res) => {
 	pool.getConnection(function (err, connection) {
 		if (err) throw err; // not connected!
 
 		// Use the connection
-		findUserById(res, connection, req.params.id);
+		findReportById(res, connection, req.params.id);
 	});
 });
 
-// PUT: User{}
+// PUT: Report{}
 router.put('/:id', async (req, res) => {
 	pool.getConnection(function (err, connection) {
 		if (err) throw err; // not connected!
 
 		// Use the connection
-		updateUser(res, connection, req.body);
-	});
-});
-
-// DELETE: User{}
-router.delete('/', async (req, res) => {
-	pool.getConnection(function (err, connection) {
-		if (err) throw err; // not connected!
-
-		// Use the connection
-		deleteUser(res, connection, req.body);
+		updateReport(res, connection, req.body);
 	});
 });
 
