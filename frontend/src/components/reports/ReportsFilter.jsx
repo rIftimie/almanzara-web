@@ -15,7 +15,7 @@ const ReportsFilter = ({ showFilter }) => {
 	return (
 		<>
 			{showFilter && (
-				<aside className="sm:w-1/3 bg-testPrimary-200">
+				<aside className="sticky top-0 -z-10 sm:w-1/3 bg-testPrimary-200">
 					<form
 						onSubmit={handleSubmit(onSubmit)}
 						className="flex flex-col p-4 text-sm reports-filter"

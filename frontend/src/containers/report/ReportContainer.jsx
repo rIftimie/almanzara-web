@@ -3,7 +3,7 @@ import ReportsFilter from 'src/components/reports/ReportsFilter';
 import ReportsHeader from 'src/components/reports/ReportsHeader';
 import ReportsTable from 'src/components/reports/ReportsTable';
 import { useUserContext } from 'src/context/UserContext';
-import { getAllReports } from '/src/helpers/fetch';
+import { getAllReports } from '/src/helpers/api/reports';
 import { useNavigate } from 'react-router-dom';
 
 import './ReportContainer.css';
@@ -34,15 +34,18 @@ const ReportContainer = () => {
 	}, [user]);
 
 	return (
-		<main className="flex flex-col-reverse border sm:flex-row border-testAccent-100">
+		<main
+			id="reportsContainer"
+			className="flex overflow-scroll flex-col border grow sm:flex-row-reverse border-testAccent-100"
+		>
+			<ReportsFilter showFilter={showFilter} />
 			<section className="flex flex-col p-2 pt-0 sm:w-full">
 				<ReportsHeader
-					setReports={setReports}
+					useStateReports={[reports, setReports]}
 					useStateFilter={[showFilter, setShowFilter]}
 				/>
 				{!isLoading ? <ReportsTable reports={reports} /> : 'Loading Reports...'}
 			</section>
-			<ReportsFilter showFilter={showFilter} />
 		</main>
 	);
 };

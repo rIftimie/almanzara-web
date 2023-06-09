@@ -1,67 +1,66 @@
-import { formatDate } from 'src/helpers/reports';
-import { selectAllUsers, getSelectedUsers } from 'src/helpers/users';
-import { deleteUsers } from 'src/helpers/fetch';
+import { formatDate } from 'src/helpers/';
+import { deleteUsers } from 'src/helpers/api/users';
+import { useNavigate } from 'react-router-dom';
 
 import './UsersTable.css';
 import { Link, NavLink } from 'react-router-dom';
 
-const UsersTable = ({ users }) => {
+const UsersTable = ({ handleUsers }) => {
 	let response = 'No se han encontrado usuarios.';
 	let renderUsers = [];
 
+	const [users, setUsers] = handleUsers;
+
+	const navigate = useNavigate();
+
 	async function handleDeleteUsers() {
-		const userIds = getSelectedUsers();
-		if (userIds.length > 0) {
-			const response = await deleteUsers(userIds);
-		} else {
-			window.alert('Debes seleccionar al menos un usuario.');
-		}
+		// const response = await deleteUsers(userIds);
 	}
 
-	async function handleCreateUser() {}
+	function handleOnClickRow(id) {
+		return navigate('/admin/user/' + id);
+	}
 
 	if (users) {
 		renderUsers = users.map((user) => (
-			<tr
-				key={user.id}
-				className="border border-testText-100 hover:bg-testBackground-100"
-			>
-				<td>
-					<input
-						className="select-user"
-						type="checkbox"
-						data-id={user.id}
-						name="userId"
-						id=""
-					/>
+			<tr key={user.id} className="border border-testText-100">
+				<td onClick={() => handleOnClickRow(user.id)} className="py-1">
+					{user.id}
 				</td>
-				<td className="py-1">{user.id}</td>
-				<td className="py-1">{user.username}</td>
-				<td className="py-1">{user.first_name}</td>
-				<td className="py-1">{user.last_name}</td>
-				<td className="py-1">{formatDate(user.created_at)}</td>
-				<td className="py-1">{formatDate(user.updated_at)}</td>
+				<td onClick={() => handleOnClickRow(user.id)} className="py-1">
+					{user.username}
+				</td>
+				<td onClick={() => handleOnClickRow(user.id)} className="py-1">
+					{user.first_name + ' ' + user.last_name}
+				</td>
+				<td onClick={() => handleOnClickRow(user.id)} className="py-1">
+					{user.email}
+				</td>
+				<td onClick={() => handleOnClickRow(user.id)} className="py-1">
+					{formatDate(user.created_at)}
+				</td>
+				<td onClick={() => handleOnClickRow(user.id)} className="py-1">
+					{formatDate(user.updated_at)}
+				</td>
+				<td className="py-1">
+					<i
+						onClick={() => console.log('actions')}
+						className="p-1.5 rounded-full cursor-pointer fa-sharp fa-solid fa-gear hover:bg-testBackground-200"
+					></i>
+				</td>
 			</tr>
 		));
 		response = (
 			<table id="adminUsersTable" className="w-full text-center">
 				<thead className="text-sm text-white border-t border-r border-l border-testText-100 bg-testPrimary-100">
 					<tr>
-						<th className="p-2">
-							<input
-								type="checkbox"
-								className="main-select-user"
-								name=""
-								id=""
-								onClick={() => selectAllUsers()}
-							/>
-						</th>
 						<th className="p-2">ID</th>
 						<th className="p-2">USUARIO</th>
 						<th className="p-2">NOMBRE</th>
-						<th className="p-2">APELLIDOS</th>
+						<th className="p-2">EMAIL</th>
 						<th className="p-2">F. DE CREACION</th>
 						<th className="p-2">F. DE ULTIMA MODIFICACION</th>
+						<th className="p-2">ACCIONES</th>
 					</tr>
 				</thead>
 				<tbody>{renderUsers}</tbody>
@@ -70,24 +69,16 @@ const UsersTable = ({ users }) => {
 	}
 
 	return (
-		<main>
+		<>
 			<header className="flex justify-between items-center p-2">
 				<div>
-					<button
-						onClick={() => handleDeleteUsers()}
-						className="px-2 py-1 font-bold border border-testText-100 hover:bg-testPrimary-300"
-					>
-						<i className="fa-solid fa-trash"></i> Eliminar
-					</button>
-				</div>
-				<div>
-					<Link to="new">
+					<Link to="../admin/user/new">
 						<i className="fa-solid fa-plus"></i> Crear
 					</Link>
 				</div>
 			</header>
 			{response}
-		</main>
+		</>
 	);
 };
 

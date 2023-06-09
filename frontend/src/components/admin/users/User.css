@@ -1,12 +1,12 @@
-#profileContainer {
+#userContainer {
 	font-family: 'Roboto', sans-serif;
 }
-#profileContainer > section span {
+#userContainer > section span {
 	font-family: 'Inter', sans-serif;
 	font-size: 0.8rem;
 	font-weight: 700;
 }
-#profileContainer > section > header {
+#userContainer > section > header {
 	font-family: 'Inter', sans-serif;
 	font-size: 2rem;
 	font-weight: 700;

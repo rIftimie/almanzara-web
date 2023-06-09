@@ -1,21 +1,56 @@
 import { useForm } from 'react-hook-form';
-import { createUser } from 'src/helpers/fetch';
+import { createUser, updateUser } from 'src/helpers/api/users';
+import { useParams, useLoaderData } from 'react-router-dom';
 
 import './UserForm.css';
+import { useEffect } from 'react';
 
 const UserForm = () => {
+	const { id } = useParams();
+	const user = useLoaderData();
+
 	const {
 		register,
 		handleSubmit,
 		formState: { errors },
+		reset,
+		setValue,
 	} = useForm();
 
-	async function handleCreateUser(user) {
-		const response = await createUser(user);
+	async function handleSubmitUser(data) {
+		if (user) {
+			data.id = id;
+			const response = await updateUser(data);
+			if (response.ok) {
+				window.alert('Usuario actualizado');
+			}
+		} else {
+			const response = await createUser(data);
+			if (response.ok) {
+				window.alert('Usuario creado');
+				reset();
+			}
+		}
 	}
 
+	async function handleLoadUser() {
+		setValue('username', user.username);
+		setValue('first_name', user.first_name);
+		setValue('last_name', user.last_name);
+		setValue('email', user.email);
+		setValue('olive_type', user.olive_type);
+		setValue('password', user.password);
+		setValue('admin', user.roles.includes('ROLE_ADMIN'));
+	}
+
+	useEffect(() => {
+		if (user) {
+			handleLoadUser();
+		}
+	}, []);
+
 	function onSubmit(data) {
-		handleCreateUser(data);
+		handleSubmitUser(data);
 	}
 
 	return (
@@ -29,14 +64,6 @@ const UserForm = () => {
 				<input
 					className="px-2 py-1"
 					{...register('username', { required: true })}
-				/>
-			</label>
-			<label htmlFor="password" className="flex flex-col">
-				<span> CONTRASEÑA</span>
-				<input
-					className="px-2 py-1"
-					type="password"
-					{...register('password', { required: true })}
 				/>
 			</label>
 			<label htmlFor="first_name" className="flex flex-col">
@@ -60,13 +87,25 @@ const UserForm = () => {
 					{...register('email', { required: true })}
 				/>
 			</label>
+			<label htmlFor="email" className="flex">
+				<span className="mr-2"> ADMIN </span>
+				<input type="checkbox" {...register('admin')} />
+			</label>
+			<label htmlFor="password" className="flex flex-col">
+				<span> CONTRASEÑA</span>
+				<input
+					className="px-2 py-1"
+					type="password"
+					{...register('password', { required: true })}
+				/>
+			</label>
 
 			{/* errors will return when field validation fails  */}
 			{errors.exampleRequired && <span>This field is required</span>}
 
 			<input
 				type="submit"
-				value="CREAR USUARIO"
+				value={user ? 'Actualizar' : ' Crear'}
 				className="px-2 py-1 text-white rounded cursor-pointer hover:bg-testPrimary-100/70 bg-testPrimary-100 w-fit"
 			/>
 		</form>

@@ -5,13 +5,15 @@ export const UserContext = createContext();
 
 export function UserContextProvider({ children }) {
 	const [user, setUser] = useState({
-		id: 2,
-		username: 'agon',
-		first_name: 'Robert',
-		last_name: 'Iftimie',
-		roles: ['ROLE_USER', 'ROLE_ADMIN'],
-		created_at: '2023-05-01T16:23:00.000Z',
-		updated_at: '2023-05-01T16:23:00.000Z',
+		id: 1,
+		username: 'admin',
+		password: 'password',
+		first_name: 'Admin',
+		last_name: 'Test',
+		email: 'test@almanzara.com',
+		roles: ['ROLE_ADMIN', 'ROLE_USER'],
+		created_at: '2023-05-01 18:23:00',
+		updated_at: '2023-05-01 18:23:00',
 	});
 
 	return (

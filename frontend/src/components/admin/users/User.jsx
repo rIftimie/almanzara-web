@@ -1,26 +1,18 @@
-import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useUserContext } from 'src/context/UserContext';
+import { useLoaderData } from 'react-router-dom';
+import { formatDate } from 'src/helpers/';
 
-import './ProfileContainer.css';
+import './User.css';
 
-const ProfileContainer = () => {
-	const { user } = useUserContext();
-	const navigate = useNavigate();
-
-	useEffect(() => {
-		if (!user) {
-			navigate('/login');
-		}
-	}, [user]);
+const User = () => {
+	const user = useLoaderData();
 
 	return (
 		<>
-			{user && (
-				<main id="profileContainer" className="flex grow">
+			{
+				<main id="userContainer" className="flex grow">
 					<section className="flex flex-col p-3 pb-5 m-auto my-3 space-y-2 w-9/12 text-white lg:w-1/2 min-h-fit h-fit bg-testPrimary-100">
 						<header>
-							Configuración de Cuenta
+							{user.first_name} {user.last_name}
 							<hr />
 						</header>
 
@@ -54,7 +46,7 @@ const ProfileContainer = () => {
 							<div className="w-full sm:w-1/2">
 								<span className="text-testPrimary-300">FECHA DE CREACION</span>
 								<div className="px-2 py-1 ml-2 border border-testText-100 bg-testBackground-100 text-testText-100">
-									{user.created_at}
+									{formatDate(user.created_at)}
 								</div>
 							</div>
 							<div className="w-full sm:w-1/2">
@@ -62,15 +54,15 @@ const ProfileContainer = () => {
 									FECHA DE ULTIMA ACTUALIZACION
 								</span>
 								<div className="px-2 py-1 ml-2 border border-testText-100 bg-testBackground-100 text-testText-100">
-									{user.updated_at}
+									{formatDate(user.updated_at)}
 								</div>
 							</div>
 						</section>
 					</section>
 				</main>
-			)}
+			}
 		</>
 	);
 };
 
-export default ProfileContainer;
+export default User;

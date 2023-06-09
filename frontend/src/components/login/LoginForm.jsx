@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { useUserContext } from 'src/context/UserContext';
-import { logIn } from 'src/helpers/fetch';
+import { logIn } from 'src/helpers/auth/';
 import './LoginForm.css';
 const LoginForm = () => {
 	const { user, setUser } = useUserContext();

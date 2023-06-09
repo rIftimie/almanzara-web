@@ -1,4 +1,4 @@
-import { NavLink, Outlet, useLocation } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 import { useUserContext } from '../../context/UserContext';
 import almanzaraLogo from '../../assets/logo35x35.svg';
 import './Navbar.css';
@@ -11,7 +11,10 @@ const Navbar = () => {
 
 	return (
 		<>
-			<nav className="flex sticky top-0 flex-col px-6 py-2 sm:items-center sm:justify-between sm:flex-row bg-testBackground-100">
+			<nav
+				id="mainNavbar"
+				className="flex sticky top-0 flex-col px-6 py-2 sm:items-center sm:justify-between sm:flex-row bg-testBackground-100"
+			>
 				<div className="flex justify-between items-center">
 					<NavLink
 						to="/"
@@ -43,11 +46,10 @@ const Navbar = () => {
 								</li>
 							)}
 
-							{!user.roles.includes('ROLE_ADMIN') && (
-								<li className="flex items-center pl-1 w-full sm:w-auto">
-									<NavLink to="reports">Informes</NavLink>
-								</li>
-							)}
+							<li className="flex items-center pl-1 w-full sm:w-auto">
+								<NavLink to="reports">Informes</NavLink>
+							</li>
+
 							<li
 								className="dropdown w-fit"
 								onClick={() => {
@@ -59,11 +61,11 @@ const Navbar = () => {
 								}}
 							>
 								<button className="px-2 py-1 font-bold text-white rounded-full sm:px-3 w-fit hover:bg-testPrimary-200 bg-testPrimary-100">
-									<i className="fa-regular fa-user"></i> {user.username}
+									<i className="fa-regular fa-user"></i>
 								</button>
 								<div
 									ref={dropdownRef}
-									className="flex absolute invisible z-10 flex-col font-bold bg-white rounded border border-black dropdown-content"
+									className="flex absolute right-6 left-auto invisible z-10 flex-col font-bold bg-white rounded border border-black dropdown-content"
 								>
 									<NavLink
 										to="settings/profile"
@@ -83,8 +85,6 @@ const Navbar = () => {
 					)}
 				</ul>
 			</nav>
-
-			<Outlet />
 		</>
 	);
 };

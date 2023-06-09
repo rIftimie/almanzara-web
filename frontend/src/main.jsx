@@ -6,10 +6,15 @@ import LoginForm from 'src/components/login/LoginForm';
 import LogoutContainer from 'src/containers/logout/LogoutContainer';
 import ProfileContainer from 'src/containers/profile/ProfileContainer';
 import ReportContainer from 'src/containers/report/ReportContainer';
-import UsersContainer from 'src/containers/admin/users/UsersContainer';
-import ErrorPage from './error/ErrorPage';
-import './main.css';
-import UserForm from './components/admin/users/UserForm';
+import UserContainer from 'src/containers/admin/users/UserContainer';
+import ErrorPage from 'src/error/ErrorPage';
+import UserForm from 'src/components/admin/users/UserForm';
+import 'src/main.css';
+import User from 'src/components/admin/users/User';
+import Report from 'src/components/reports/Report';
+import ReportForm from 'src/components/reports/ReportForm';
+import { findUserById } from 'src/helpers/api/users';
+import { findReportById } from 'src/helpers/api/reports';
 
 const router = createBrowserRouter([
 	{
@@ -25,16 +30,48 @@ const router = createBrowserRouter([
 				element: <ReportContainer />,
 			},
 			{
-				path: 'settings/profile',
-				element: <ProfileContainer />,
+				path: 'report/:id',
+				element: <Report />,
+				loader: async ({ params }) => {
+					return findReportById(params.id);
+				},
+			},
+			{
+				path: 'report/:id/update',
+				element: <ReportForm />,
+				loader: async ({ params }) => {
+					return findReportById(params.id);
+				},
+			},
+			{
+				path: 'report/new',
+				element: <ReportForm />,
 			},
 			{
 				path: 'admin/users',
-				element: <UsersContainer />,
+				element: <UserContainer />,
 			},
 			{
-				path: 'admin/users/new',
+				path: 'admin/user/:id',
+				element: <User />,
+				loader: async ({ params }) => {
+					return findUserById(params.id);
+				},
+			},
+			{
+				path: 'admin/user/:id/update',
 				element: <UserForm />,
+				loader: async ({ params }) => {
+					return findUserById(params.id);
+				},
+			},
+			{
+				path: 'admin/user/new',
+				element: <UserForm />,
+			},
+			{
+				path: 'settings/profile',
+				element: <ProfileContainer />,
 			},
 			{
 				path: 'logout',

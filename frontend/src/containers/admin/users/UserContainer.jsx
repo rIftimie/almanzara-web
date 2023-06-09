@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import UsersTable from 'src/components/admin/users/UsersTable';
-import { getAllUsers } from 'src/helpers/fetch';
+import { getAllUsers } from 'src/helpers/api/users/';
 
-const AdminUsers = () => {
+const UserContainer = () => {
 	const [users, setUsers] = useState(null);
 	let loading = true;
 
@@ -20,10 +20,14 @@ const AdminUsers = () => {
 	}, []);
 
 	return (
-		<main>
-			{loading ? 'Cargando usuarios...' : <UsersTable users={users} />}{' '}
+		<main className="flex flex-col grow">
+			{loading ? (
+				'Cargando usuarios...'
+			) : (
+				<UsersTable handleUsers={[users, setUsers]} />
+			)}{' '}
 		</main>
 	);
 };
 
-export default AdminUsers;
+export default UserContainer;

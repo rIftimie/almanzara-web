@@ -1,15 +1,5 @@
-const endPoint = 'http://localhost:3000';
+const endPoint = import.meta.env.VITE_API_URL;
 
-export async function getAllReports(data) {
-	const url = endPoint + '/api/reports/' + data.user.id;
-
-	const response = await fetch(url, {
-		headers: { 'Content-type': 'application/json' },
-	});
-	if (!response.ok) throw new Error(500);
-
-	return response.json();
-}
 export async function getAllUsers() {
 	const url = endPoint + '/api/users';
 
@@ -32,24 +22,24 @@ export async function createUser(user) {
 		});
 		if (!response.ok) throw new Error(500);
 
-		return await response.json();
+		return response;
 	} catch (error) {
 		throw new Error(error);
 	}
 }
 
-export async function logIn(data) {
+export async function updateUser(user) {
 	try {
-		const url = endPoint + '/api/auth/';
+		const url = endPoint + '/api/user/' + user.id;
 
 		const response = await fetch(url, {
-			method: 'POST',
+			method: 'PUT',
 			headers: { 'Content-type': 'application/json' },
-			body: JSON.stringify(data),
+			body: JSON.stringify(user),
 		});
 		if (!response.ok) throw new Error(500);
 
-		return await response.json();
+		return response;
 	} catch (error) {
 		throw new Error(error);
 	}
@@ -66,28 +56,23 @@ export async function deleteUsers(userIds) {
 		});
 		if (!response.ok) throw new Error(500);
 
-		return await response.json();
+		return response;
 	} catch (error) {
 		throw new Error(error);
 	}
 }
 
-export async function getAllReportsFromAWS() {
+export async function findUserById(userId) {
 	try {
-		const response = await fetch(
-			'https://drebwuza72.execute-api.us-east-1.amazonaws.com/user?id=1',
-			{
-				headers: {
-					'Access-Control-Allow-Origin': '*', // Required for CORS support to work
-					'Access-Control-Allow-Credentials': true, // Required for cookies, authorization headers with HTTP
-					'Content-Type': 'application/json',
-				},
-			}
-		);
+		const url = endPoint + '/api/user/' + userId;
 
-		const json = await response.json();
+		const response = await fetch(url, {
+			headers: { 'Content-type': 'application/json' },
+		});
 
-		return json;
+		if (!response.ok) throw new Error(500);
+
+		return await response.json();
 	} catch (error) {
 		throw new Error(error);
 	}
