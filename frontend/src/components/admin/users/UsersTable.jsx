@@ -22,7 +22,7 @@ const UsersTable = ({ handleUsers }) => {
 	}
 
 	if (users) {
-		renderUsers = users.map((user) => (
+		renderUsers = users.results.map((user) => (
 			<tr key={user.id} className="border border-testText-100">
 				<td onClick={() => handleOnClickRow(user.id)} className="py-1">
 					{user.id}

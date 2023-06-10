@@ -6,12 +6,12 @@ import express from 'express';
 const router = express.Router();
 
 // GET: Users[]
-router.get('/', async (req, res) => {
+router.post('/', async (req, res) => {
 	pool.getConnection(function (err, connection) {
 		if (err) throw err; // not connected!
 
 		// Use the connection
-		getAllUsers(res, connection);
+		getAllUsers(res, connection, req.body.user, req.body.pagination);
 	});
 });
 

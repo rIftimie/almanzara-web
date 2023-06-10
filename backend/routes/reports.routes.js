@@ -1,7 +1,4 @@
-import {
-	getReportsFromUser,
-	deleteReports,
-} from '../controllers/ReportsController.js';
+import { getReports, deleteReports } from '../controllers/ReportsController.js';
 
 import { pool } from '../database/index.js';
 
@@ -15,7 +12,7 @@ router.post('/', async (req, res) => {
 		if (err) throw err; // not connected!
 
 		// Use the connection
-		getReportsFromUser(res, connection, req.body);
+		getReports(res, connection, req.body.user, req.body.pagination);
 	});
 });
 

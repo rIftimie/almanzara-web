@@ -33,13 +33,13 @@ export async function updateReport(report) {
 	}
 }
 
-export async function getAllReports(data) {
-	const url = endPoint + '/api/reports/';
+export async function getReports(data) {
+	const url = endPoint + '/api/reports';
 
 	const response = await fetch(url, {
 		method: 'POST',
 		headers: { 'Content-type': 'application/json' },
-		body: JSON.stringify(data.user),
+		body: JSON.stringify(data),
 	});
 	if (!response.ok) throw new Error(500);
 

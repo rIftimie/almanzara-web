@@ -1,17 +1,46 @@
 import bcrypt from 'bcrypt';
 
-export async function getAllUsers(res, connection) {
-	const query = 'SELECT * FROM users WHERE deleted_at IS NULL';
+export async function getAllUsers(res, connection, user, pagination) {
+	const admin = user.roles.includes('ROLE_ADMIN');
 
-	connection.query(query, function (error, results, fields) {
-		// When done with the connection, release it.
-		connection.release();
+	const pageNumber = pagination.page || 1; // Get the current page number from the query parameters
+	const pageSize = pagination.size || 10; // Number of items per page
 
-		// Handle error after the release.
-		if (error) throw error;
+	let getQuery = 'SELECT * FROM users WHERE deleted_at IS NULL';
 
-		res.json(results);
-	});
+	if (pageNumber > 1) {
+		getQuery += ` LIMIT ${(pageNumber - 1) * pageSize}, ${pageSize}`;
+	} else {
+		getQuery += ` LIMIT 0, ${pageSize}`;
+	}
+	if (!admin) {
+		res.sendStatus(403);
+	} else {
+		connection.query(getQuery, function (error, usersResults, fields) {
+			let countQuery = 'SELECT count(*) FROM users WHERE deleted_at IS NULL';
+
+			if (usersResults) {
+				// Count total number of reports
+				connection.query(countQuery, function (error, usersCount, fields) {
+					connection.release();
+
+					// Handle error after the release.
+					if (error) throw error;
+
+					const pageCount = usersCount[0]['count(*)'];
+
+					res.json({ count: pageCount, results: usersResults });
+				});
+			} else {
+				connection.release();
+
+				// Handle error after the release.
+				if (error) throw error;
+
+				res.sendStatus(404);
+			}
+		});
+	}
 }
 
 export async function createUser(res, connection, user) {

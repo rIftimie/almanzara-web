@@ -1,26 +1,54 @@
-export async function getReportsFromUser(res, connection, user) {
-	let query =
-		'SELECT * FROM weighings WHERE user=' +
-		user.id +
-		' AND deleted_at IS NULL ORDER BY start_date DESC';
+export async function getReports(res, connection, user, pagination) {
+	const admin = user.roles.includes('ROLE_ADMIN');
 
-	if (user.roles.includes('ROLE_ADMIN')) {
-		query =
-			'SELECT * FROM weighings WHERE deleted_at IS NULL ORDER BY start_date DESC';
+	const pageNumber = pagination.page || 1; // Get the current page number from the query parameters
+	const pageSize = pagination.size || 10; // Number of items per page
+
+	let getQuery = `SELECT * FROM weighings WHERE user=${user.id} AND deleted_at IS NULL ORDER BY start_date DESC`;
+
+	if (admin) {
+		getQuery = `SELECT * FROM weighings WHERE deleted_at IS NULL ORDER BY start_date DESC`;
 	}
-	connection.query(query, function (error, results, fields) {
+
+	if (pageNumber > 1) {
+		getQuery += ` LIMIT ${(pageNumber - 1) * pageSize}, ${pageSize}`;
+	} else {
+		getQuery += ` LIMIT 0, ${pageSize}`;
+	}
+
+	connection.query(getQuery, async function (error, reportsResults, fields) {
 		// When done with the connection, release it.
-		connection.release();
 
-		// Handle error after the release.
-		if (error) throw error;
+		let countQuery = 'SELECT count(*) FROM weighings WHERE deleted_at IS NULL';
+		if (!admin) {
+			countQuery += ` AND user=${user.id}`;
+		}
 
-		if (results) {
-			res.json(results);
+		if (reportsResults) {
+			// Count total number of reports
+			connection.query(countQuery, function (error, reportsCount, fields) {
+				connection.release();
+
+				// Handle error after the release.
+				if (error) throw error;
+
+				const pageCount = reportsCount[0]['count(*)'];
+
+				res.json({ count: pageCount, results: reportsResults });
+			});
 		} else {
+			connection.release();
+
+			// Handle error after the release.
+			if (error) throw error;
+
 			res.sendStatus(404);
 		}
 	});
+}
+
+async function getReportsCount(connection, userId, admin) {
+	// });
 }
 
 export async function createReport(res, connection, report) {

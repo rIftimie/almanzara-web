@@ -13,7 +13,7 @@ const Navbar = () => {
 		<>
 			<nav
 				id="mainNavbar"
-				className="flex sticky top-0 flex-col px-6 py-2 sm:items-center sm:justify-between sm:flex-row bg-testBackground-100"
+				className="flex sticky top-0 z-20 flex-col px-6 py-2 sm:items-center sm:justify-between sm:flex-row bg-testBackground-100"
 			>
 				<div className="flex justify-between items-center">
 					<NavLink
@@ -65,17 +65,17 @@ const Navbar = () => {
 								</button>
 								<div
 									ref={dropdownRef}
-									className="flex absolute right-6 left-auto invisible z-10 flex-col font-bold bg-white rounded border border-black dropdown-content"
+									className="flex absolute right-6 left-auto invisible flex-col font-bold bg-white rounded border border-black dropdown-content"
 								>
 									<NavLink
 										to="settings/profile"
-										className="z-10 p-2 rounded-t hover:bg-testBackground-100"
+										className="p-2 rounded-t hover:bg-testBackground-100"
 									>
 										Ver Perfil
 									</NavLink>
 									<NavLink
 										to="logout"
-										className="z-10 p-2 rounded-b border-t border-testText-100 hover:bg-testBackground-100"
+										className="p-2 rounded-b border-t border-testText-100 hover:bg-testBackground-100"
 									>
 										Cerrar sesión
 									</NavLink>

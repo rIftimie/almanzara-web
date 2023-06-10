@@ -1,12 +1,15 @@
 import { useUserContext } from 'src/context/UserContext';
-import { getAllReports, deleteReports } from 'src/helpers/api/reports';
+import { getReports, deleteReports } from 'src/helpers/api/reports';
 import { getSelectedReports } from 'src/helpers';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 
 const ReportsHeader = ({ useStateReports, useStateFilter }) => {
 	const { user } = useUserContext();
 	const [showFilter, setShowFilter] = useStateFilter;
 	const [reports, setReports] = useStateReports;
+
+	const search = useLocation().search;
+	const pageNumber = Number(new URLSearchParams(search).get('page')) || 1;
 
 	return (
 		<header className="flex sticky top-0 z-10 justify-end px-2 py-1 space-x-2 font-bold bg-white">
@@ -31,15 +34,18 @@ const ReportsHeader = ({ useStateReports, useStateFilter }) => {
 			>
 				<i className="fa-solid fa-trash"></i> Eliminar seleccionados
 			</a>
-			<a
-				href="#"
+			<div
+				className="cursor-pointer"
 				onClick={async () => {
-					const data = await getAllReports({ user });
-					setReports(data);
+					const data = await getReports({
+						user,
+						pagination: { page: pageNumber },
+					});
+					setReports(data.results);
 				}}
 			>
 				<i className="fa-solid fa-arrows-rotate"></i> Actualizar
-			</a>
+			</div>
 			<a
 				href="#"
 				onClick={() => {

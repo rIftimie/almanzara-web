@@ -1,9 +1,4 @@
-import {
-	formatDate,
-	formatTime,
-	selectAllReports,
-	getSelectedReports,
-} from 'src/helpers/';
+import { formatDate, formatTime, selectAllReports } from 'src/helpers/';
 import { useNavigate } from 'react-router-dom';
 
 const ReportsTable = ({ reports }) => {
@@ -29,25 +24,21 @@ const ReportsTable = ({ reports }) => {
 						className="select-report"
 					/>
 				</td>
-				<td onClick={() => handleOnClickRow(report.id)} className="py-1">
-					{report.id}
-				</td>
-				<td onClick={() => handleOnClickRow(report.id)} className="py-1">
+				<td onClick={() => handleOnClickRow(report.id)}>{report.id}</td>
+				<td onClick={() => handleOnClickRow(report.id)}>
 					{formatDate(report.start_date)}
 				</td>
-				<td onClick={() => handleOnClickRow(report.id)} className="py-1">
+				<td onClick={() => handleOnClickRow(report.id)}>
 					{formatTime(report.duration)}
 				</td>
-				<td onClick={() => handleOnClickRow(report.id)} className="py-1">
+				<td onClick={() => handleOnClickRow(report.id)}>
 					{report.total_gr / 1000}kg
 				</td>
-				<td onClick={() => handleOnClickRow(report.id)} className="py-1">
-					{report.olive_type}
-				</td>
-				<td className="py-1">
+				<td onClick={() => handleOnClickRow(report.id)}>{report.olive_type}</td>
+				<td>
 					<i
 						onClick={() => console.log('actions')}
-						className="p-1.5 rounded-full cursor-pointer fa-sharp fa-solid fa-gear hover:bg-testBackground-200"
+						className="p-1 px-2 text-base rounded-full cursor-pointer fa-sharp fa-solid fa-gear hover:bg-testBackground-200"
 					></i>
 				</td>
 			</tr>
@@ -71,7 +62,7 @@ const ReportsTable = ({ reports }) => {
 						<th className="p-2">ACCIONES</th>
 					</tr>
 				</thead>
-				<tbody>{renderReports}</tbody>
+				<tbody className="">{renderReports}</tbody>
 			</table>
 		);
 	}
