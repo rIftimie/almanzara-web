@@ -74,7 +74,7 @@ const ReportContainer = () => {
 				{!isLoading ? (
 					<ReportsTable reports={reports.results} />
 				) : (
-					'Loading Reports...'
+					'Cargando Informes...'
 				)}
 			</section>
 		</main>

@@ -69,7 +69,7 @@ const ReportForm = () => {
 			id="reportForm"
 			className="flex flex-col p-3 space-y-2 lg:m-auto lg:mt-4 lg:w-1/3 bg-testPrimary-200"
 		>
-			<header>Nuevo Pesaje</header>
+			<header>{(report ? 'Actualizar' : 'Nuevo') + ' Pesaje'}</header>
 			<label htmlFor="start_date" className="flex flex-col">
 				<span> FECHA </span>
 				<input
@@ -133,7 +133,7 @@ const ReportForm = () => {
 
 			<input
 				type="submit"
-				value="CREAR"
+				value={report ? 'ACTUALIZAR' : 'CREAR'}
 				className="px-2 py-1 text-white rounded cursor-pointer hover:bg-testPrimary-100/70 bg-testPrimary-100 w-fit"
 			/>
 		</form>

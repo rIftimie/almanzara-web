@@ -65,7 +65,7 @@ const Navbar = () => {
 								</button>
 								<div
 									ref={dropdownRef}
-									className="flex absolute right-6 left-auto invisible flex-col font-bold bg-white rounded border border-black dropdown-content"
+									className="flex absolute right-6 left-auto invisible flex-col font-bold bg-white rounded border border-black shadow-lg shadow-gray-500/50 dropdown-content"
 								>
 									<NavLink
 										to="settings/profile"
@@ -75,7 +75,7 @@ const Navbar = () => {
 									</NavLink>
 									<NavLink
 										to="logout"
-										className="p-2 rounded-b border-t border-testText-100 hover:bg-testBackground-100"
+										className="p-2 rounded-b hover:bg-testBackground-100"
 									>
 										Cerrar sesión
 									</NavLink>
