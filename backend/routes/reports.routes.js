@@ -12,7 +12,13 @@ router.post('/', async (req, res) => {
 		if (err) throw err; // not connected!
 
 		// Use the connection
-		getReports(res, connection, req.body.user, req.body.pagination);
+		getReports(
+			res,
+			connection,
+			req.body.user,
+			req.body.pagination,
+			req.body.filters
+		);
 	});
 });
 

@@ -1,7 +1,10 @@
+import { NavLink, useLocation } from 'react-router-dom';
+
 import { useUserContext } from 'src/context/UserContext';
+
 import { getReports, deleteReports } from 'src/helpers/api/reports';
 import { getSelectedReports } from 'src/helpers';
-import { NavLink, useLocation } from 'react-router-dom';
+import { defaultPagination } from 'src/helpers';
 
 const ReportsHeader = ({ useStateReports, useStateFilter }) => {
 	const { user } = useUserContext();
@@ -9,7 +12,7 @@ const ReportsHeader = ({ useStateReports, useStateFilter }) => {
 	const [reports, setReports] = useStateReports;
 
 	const search = useLocation().search;
-	const pageNumber = Number(new URLSearchParams(search).get('page')) || 1;
+	const { pageNumber, pageSize } = defaultPagination(search);
 
 	return (
 		<header className="flex sticky top-0 z-10 justify-end px-2 py-1 space-x-2 font-bold bg-white">
@@ -39,9 +42,9 @@ const ReportsHeader = ({ useStateReports, useStateFilter }) => {
 				onClick={async () => {
 					const data = await getReports({
 						user,
-						pagination: { page: pageNumber },
+						pagination: { page: pageNumber, size: pageSize },
 					});
-					setReports(data.results);
+					setReports(data);
 				}}
 			>
 				<i className="fa-solid fa-arrows-rotate"></i> Actualizar

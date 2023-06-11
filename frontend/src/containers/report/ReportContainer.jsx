@@ -1,17 +1,22 @@
 import { useEffect, useState } from 'react';
+import { NavLink, useLocation, useNavigate } from 'react-router-dom';
+
+import { useUserContext } from 'src/context/UserContext';
+
 import ReportsFilter from 'src/components/reports/ReportsFilter';
 import ReportsHeader from 'src/components/reports/ReportsHeader';
 import ReportsTable from 'src/components/reports/ReportsTable';
-import { useUserContext } from 'src/context/UserContext';
+import Pagination from 'src/components/reports/Pagination';
+
 import { getReports } from '/src/helpers/api/reports';
-import { NavLink, useLocation, useNavigate } from 'react-router-dom';
+import { defaultPagination } from 'src/helpers';
 
 import './ReportContainer.css';
-import Pagination from '../../components/reports/Pagination';
 
 const ReportContainer = () => {
 	const { user } = useUserContext();
 
+	const navigate = useNavigate();
 	// Check if user is logged in
 	if (!user) {
 		navigate('/login');
@@ -22,10 +27,8 @@ const ReportContainer = () => {
 	const [showFilter, setShowFilter] = useState(false);
 
 	// Pagination
-	const navigate = useNavigate();
 	const search = useLocation().search;
-	const pageNumber = Number(new URLSearchParams(search).get('page')) || 1;
-	const pageSize = Number(new URLSearchParams(search).get('size')) || 10;
+	const { pageNumber, pageSize } = defaultPagination(search);
 
 	// Loading
 	let isLoading = true;
@@ -51,7 +54,10 @@ const ReportContainer = () => {
 			id="reportsContainer"
 			className="flex flex-col border grow sm:flex-row-reverse border-testAccent-100"
 		>
-			<ReportsFilter showFilter={showFilter} />
+			<ReportsFilter
+				showFilter={showFilter}
+				useStateReports={[reports, setReports]}
+			/>
 			<section
 				id="reportsSection"
 				className="flex overflow-scroll flex-col p-4 pt-0 sm:w-full"

@@ -68,3 +68,32 @@ export function getSelectedReports() {
 
 	return reportIds;
 }
+
+export function defaultPagination(search) {
+	const pageNumber = Number(new URLSearchParams(search).get('page')) || 1;
+	const pageSize = Number(new URLSearchParams(search).get('size')) || 10;
+
+	return {
+		pageNumber,
+		pageSize,
+	};
+}
+
+export function getURLParamsFilters(params) {
+	const filters = {};
+	filters.date_from =
+		params.get('date_from') == '' ? null : params.get('date_from'); // is the string "Jonathan"
+	filters.date_to = params.get('date_to') == '' ? null : params.get('date_to'); // is the string "Jonathan"
+	filters.duration_from =
+		params.get('duration_from') == '' ? null : params.get('duration_from'); // is the string "Jonathan"
+	filters.duration_to =
+		params.get('duration_to') == '' ? null : params.get('duration_to'); // is the string "Jonathan"
+	filters.total_gr_from =
+		params.get('total_gr_from') == '' ? null : params.get('total_gr_from'); // is the string "Jonathan"
+	filters.total_gr_to =
+		params.get('total_gr_to') == '' ? null : params.get('total_gr_to'); // is the string "Jonathan"
+	filters.olive_type =
+		params.get('olive_type') == '' ? null : params.get('olive_type'); // is the string "Jonathan"
+
+	return filters;
+}

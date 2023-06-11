@@ -1,19 +1,77 @@
-export async function getReports(res, connection, user, pagination) {
+export async function getReports(
+	res,
+	connection,
+	user,
+	pagination,
+	filters = {
+		date_from: null,
+		date_to: null,
+		duration_from: null,
+		duration_to: null,
+		total_gr_from: null,
+		total_gr_to: null,
+		olive_type: null,
+	}
+) {
 	const admin = user.roles.includes('ROLE_ADMIN');
 
 	const pageNumber = pagination.page || 1; // Get the current page number from the query parameters
 	const pageSize = pagination.size || 10; // Number of items per page
 
-	let getQuery = `SELECT * FROM weighings WHERE user=${user.id} AND deleted_at IS NULL ORDER BY start_date DESC`;
+	let getQuery = `SELECT * FROM weighings WHERE user=${user.id} AND deleted_at IS NULL`;
 
 	if (admin) {
-		getQuery = `SELECT * FROM weighings WHERE deleted_at IS NULL ORDER BY start_date DESC`;
+		getQuery = `SELECT * FROM weighings WHERE deleted_at IS NULL`;
 	}
 
-	if (pageNumber > 1) {
-		getQuery += ` LIMIT ${(pageNumber - 1) * pageSize}, ${pageSize}`;
-	} else {
-		getQuery += ` LIMIT 0, ${pageSize}`;
+	let filter = false;
+
+	if (filters.date_from != null && filters.date_to != null) {
+		filter = true;
+		getQuery += ` AND start_date >= "${filters.date_from}" AND start_date <= "${filters.date_to}"`;
+	} else if (filters.date_from != null) {
+		filter = true;
+		getQuery += ` AND start_date >= "${filters.date_from}"`;
+	} else if (filters.date_to != null) {
+		filter = true;
+		getQuery += ` AND start_date <= "${filters.date_to}" `;
+	}
+
+	if (filters.duration_from != null && filters.duration_to != null) {
+		filter = true;
+		getQuery += ` AND duration >= "${filters.duration_from}" AND duration <= "${filters.duration_to}"`;
+	} else if (filters.duration_from != null) {
+		filter = true;
+		getQuery += ` AND duration >= "${filters.duration_from}"`;
+	} else if (filters.duration_to != null) {
+		filter = true;
+		getQuery += ` AND duration <= "${filters.duration_to}"`;
+	}
+
+	if (filters.total_gr_from != null && filters.total_gr_to != null) {
+		filter = true;
+		getQuery += ` AND total_gr >= "${filters.total_gr_from}" AND total_gr <= "${filters.total_gr_to}"`;
+	} else if (filters.total_gr_from != null) {
+		filter = true;
+		getQuery += ` AND total_gr >= "${filters.total_gr_from}"`;
+	} else if (filters.total_gr_to != null) {
+		filter = true;
+		getQuery += ` AND total_gr <= "${filters.total_gr_to}"`;
+	}
+
+	if (filters.olive_type != null) {
+		filter = true;
+		getQuery += ` AND olive_type = "${filters.olive_type}"`;
+	}
+
+	getQuery += ' ORDER BY start_date DESC';
+
+	if (!filter) {
+		if (pageNumber > 1) {
+			getQuery += ` LIMIT ${(pageNumber - 1) * pageSize}, ${pageSize}`;
+		} else {
+			getQuery += ` LIMIT 0, ${pageSize}`;
+		}
 	}
 
 	connection.query(getQuery, async function (error, reportsResults, fields) {
@@ -47,13 +105,7 @@ export async function getReports(res, connection, user, pagination) {
 	});
 }
 
-async function getReportsCount(connection, userId, admin) {
-	// });
-}
-
 export async function createReport(res, connection, report) {
-	// bcrypt.hash(user.password, 10, function (err, hash) {
-	// Create hashed password and query
 	const query = `INSERT INTO weighings(user, start_date, duration, total_gr, olive_type)
 	VALUES (${report.user},"${report.start_date}" ,"${report.duration}",${report.total_gr},"${report.olive_type}")`;
 
@@ -67,11 +119,9 @@ export async function createReport(res, connection, report) {
 
 		res.sendStatus(201);
 	});
-	// });
 }
+
 export async function updateReport(res, connection, report) {
-	// bcrypt.hash(user.password, 10, function (err, hash) {
-	// Create hashed password and query
 	const query = `UPDATE weighings
 	SET start_date = "${report.start_date}", duration = "${report.duration}", total_gr = ${report.total_gr}, olive_type = "${report.olive_type}" WHERE id = ${report.id}`;
 
@@ -85,7 +135,6 @@ export async function updateReport(res, connection, report) {
 
 		res.sendStatus(200);
 	});
-	// });
 }
 
 export async function deleteReports(res, connection, reportsIds) {
