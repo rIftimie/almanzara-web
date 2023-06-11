@@ -10,4 +10,5 @@ export const pool = mysql.createPool({
 	password: process.env.RDS_PASSWORD,
 	database: process.env.RDS_DATABASE,
 	port: process.env.RDS_PORT,
+	multipleStatements: true,
 });

@@ -33,7 +33,7 @@ const Navbar = () => {
 					className="flex flex-col py-2 space-y-1 h-full  sm:!visible sm:flex-row sm:space-x-2 sm:space-y-0 sm:py-0"
 				>
 					{location.pathname != '/login' && !user ? (
-						<li className="pl-1 w-full sm:w-auto">
+						<li className="flex justify-center items-center pl-1 w-full sm:w-auto">
 							<NavLink to="login">Iniciar Sesión</NavLink>
 						</li>
 					) : null}

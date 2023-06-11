@@ -1,5 +1,4 @@
 import express from 'express';
-import cors from 'cors';
 import bodyParser from 'body-parser';
 
 import {
@@ -16,12 +15,6 @@ app.use(bodyParser.json());
 
 // Variables
 const PORT = process.env.PORT || 3000;
-
-// var corsOptions = {
-// 	origin: process.env.CLIENT_ORIGIN || 'http://localhost:8080',
-// };
-
-// app.use(cors(corsOptions));
 
 // Build Static Web Application:
 app.use('/', express.static('../frontend/dist'));

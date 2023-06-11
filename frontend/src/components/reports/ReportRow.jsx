@@ -45,6 +45,9 @@ const ReportRow = ({ report }) => {
 			</td>
 			<td onClick={() => handleOnClickRow(report.id)}>{report.id}</td>
 			<td onClick={() => handleOnClickRow(report.id)}>
+				{report.first_name + ' ' + report.last_name}
+			</td>
+			<td onClick={() => handleOnClickRow(report.id)}>
 				{formatDate(report.start_date)}
 			</td>
 			<td onClick={() => handleOnClickRow(report.id)}>
@@ -79,9 +82,6 @@ const ReportRow = ({ report }) => {
 							className="p-2 w-full rounded-t hover:bg-testBackground-100"
 						>
 							Actualizar
-						</NavLink>
-						<NavLink className="p-2 w-full rounded-t hover:bg-testBackground-100">
-							Borrar
 						</NavLink>
 						<PDFDownloadLink
 							className="p-2 w-full rounded-t hover:bg-testBackground-100"

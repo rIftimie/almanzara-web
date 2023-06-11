@@ -41,12 +41,12 @@ router.put('/:id', async (req, res) => {
 });
 
 // DELETE: User{}
-router.delete('/', async (req, res) => {
+router.delete('/:id', async (req, res) => {
 	pool.getConnection(function (err, connection) {
 		if (err) throw err; // not connected!
 
 		// Use the connection
-		deleteUser(res, connection, req.body);
+		deleteUser(res, connection, req.params.id);
 	});
 });
 

@@ -4,6 +4,8 @@ import { useNavigate } from 'react-router-dom';
 
 import './UsersTable.css';
 import { Link, NavLink } from 'react-router-dom';
+import { useRef } from 'react';
+import UserRow from './UserRow';
 
 const UsersTable = ({ handleUsers }) => {
 	let response = 'No se han encontrado usuarios.';
@@ -11,44 +13,9 @@ const UsersTable = ({ handleUsers }) => {
 
 	const [users, setUsers] = handleUsers;
 
-	const navigate = useNavigate();
-
-	async function handledeleteUser() {
-		// const response = await deleteUser(userIds);
-	}
-
-	function handleOnClickRow(id) {
-		return navigate('/admin/user/' + id);
-	}
-
 	if (users) {
 		renderUsers = users.results.map((user) => (
-			<tr key={user.id} className="border border-testText-100">
-				<td onClick={() => handleOnClickRow(user.id)} className="py-1">
-					{user.id}
-				</td>
-				<td onClick={() => handleOnClickRow(user.id)} className="py-1">
-					{user.username}
-				</td>
-				<td onClick={() => handleOnClickRow(user.id)} className="py-1">
-					{user.first_name + ' ' + user.last_name}
-				</td>
-				<td onClick={() => handleOnClickRow(user.id)} className="py-1">
-					{user.email}
-				</td>
-				<td onClick={() => handleOnClickRow(user.id)} className="py-1">
-					{formatDate(user.created_at)}
-				</td>
-				<td onClick={() => handleOnClickRow(user.id)} className="py-1">
-					{formatDate(user.updated_at)}
-				</td>
-				<td className="py-1">
-					<i
-						onClick={() => console.log('actions')}
-						className="p-1.5 rounded-full cursor-pointer fa-sharp fa-solid fa-gear hover:bg-testBackground-200"
-					></i>
-				</td>
-			</tr>
+			<UserRow useStateUsers={[users, setUsers]} key={user.id} user={user} />
 		));
 		response = (
 			<table id="adminUsersTable" className="w-full text-center">
@@ -70,7 +37,7 @@ const UsersTable = ({ handleUsers }) => {
 
 	return (
 		<>
-			<header className="flex justify-between items-center p-2">
+			<header className="flex justify-end items-center p-2">
 				<div>
 					<Link to="../admin/user/new">
 						<i className="fa-solid fa-plus"></i> Crear

@@ -1,38 +1,19 @@
-import { useForm } from 'react-hook-form';
-import { NavLink, useLocation } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
-import { useUserContext } from 'src/context/UserContext';
-
-import { getReports } from 'src/helpers/api/reports';
-import { defaultPagination } from 'src/helpers';
-
-const ReportsFilter = ({ showFilter, useStateReports }) => {
-	const { user } = useUserContext();
-	const [reports, setReports] = useStateReports;
-
-	const search = useLocation().search;
-	const { pageNumber, pageSize } = defaultPagination(search);
-
-	// async function handleFilter(filters) {
-	// 	console.log(filters);
-	// 	const response = await getReports({
-	// 		user,
-	// 		pagination: { page: pageNumber, size: pageSize },
-	// 		filters,
-	// 	});
-
-	// 	setReports(response);
-	// }
-
-	// function onSubmit(data) {
-	// 	handleFilter(data);
-	// }
-
+const ReportsFilter = ({ showFilter }) => {
 	return (
 		<>
 			{showFilter && (
 				<aside className="sm:w-1/3 bg-testPrimary-200">
 					<form className="flex flex-col p-4 text-sm reports-filter">
+						<label htmlFor="dateFrom">
+							Nombre de usuario:
+							<input
+								className="px-2 rounded-full"
+								type="text"
+								name="username"
+							/>
+						</label>
 						<label htmlFor="dateFrom">
 							Desde:
 							<input

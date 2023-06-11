@@ -3,10 +3,11 @@ import UsersTable from 'src/components/admin/users/UsersTable';
 import { getAllUsers } from 'src/helpers/api/users/';
 import Pagination from 'src/components/reports/Pagination';
 import { useUserContext } from 'src/context/UserContext';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const UserContainer = () => {
 	const { user } = useUserContext();
+	const navigate = useNavigate();
 
 	const [users, setUsers] = useState({ count: 0, results: null });
 
@@ -22,6 +23,11 @@ const UserContainer = () => {
 	}
 
 	useEffect(() => {
+		// Check if user is logged in
+		if (!user || !user.roles.includes('ROLE_ADMIN')) {
+			navigate('/login');
+		}
+
 		async function handleLoadUsers() {
 			const response = await getAllUsers({
 				user,
@@ -39,12 +45,14 @@ const UserContainer = () => {
 				'Cargando usuarios...'
 			) : (
 				<>
-					<Pagination
-						count={users.count}
-						pageSize={pageSize}
-						pageNumber={pageNumber}
-					/>
-					<UsersTable handleUsers={[users, setUsers]} />
+					<section className="p-4">
+						<Pagination
+							count={users.count}
+							pageSize={pageSize}
+							pageNumber={pageNumber}
+						/>
+						<UsersTable handleUsers={[users, setUsers]} />
+					</section>
 				</>
 			)}{' '}
 		</main>

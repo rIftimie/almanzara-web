@@ -24,11 +24,12 @@ const ReportsHeader = ({ useStateReports, useStateFilter }) => {
 					if (reportsIds.length > 0) {
 						const response = await deleteReports(reportsIds);
 						if (response.ok) {
-							setReports(
-								reports.filter(
+							setReports({
+								...reports,
+								results: reports.results.filter(
 									(reports) => !reportsIds.includes(reports.id.toString())
-								)
-							);
+								),
+							});
 						}
 					} else {
 						window.alert('Debes seleccionar al menos un informe para eliminar');

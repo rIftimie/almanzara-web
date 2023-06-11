@@ -22,6 +22,7 @@ const ReportsTable = ({ reports }) => {
 							/>
 						</th>
 						<th className="p-2">ID</th>
+						<th className="p-2">REALIZADO POR</th>
 						<th className="p-2">FECHA</th>
 						<th className="p-2">DURACION</th>
 						<th className="p-2">PESO TOTAL</th>

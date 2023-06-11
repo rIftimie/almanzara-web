@@ -81,19 +81,21 @@ export function defaultPagination(search) {
 
 export function getURLParamsFilters(params) {
 	const filters = {};
+	filters.username =
+		params.get('username') == '' ? null : params.get('username');
 	filters.date_from =
-		params.get('date_from') == '' ? null : params.get('date_from'); // is the string "Jonathan"
-	filters.date_to = params.get('date_to') == '' ? null : params.get('date_to'); // is the string "Jonathan"
+		params.get('date_from') == '' ? null : params.get('date_from');
+	filters.date_to = params.get('date_to') == '' ? null : params.get('date_to');
 	filters.duration_from =
-		params.get('duration_from') == '' ? null : params.get('duration_from'); // is the string "Jonathan"
+		params.get('duration_from') == '' ? null : params.get('duration_from');
 	filters.duration_to =
-		params.get('duration_to') == '' ? null : params.get('duration_to'); // is the string "Jonathan"
+		params.get('duration_to') == '' ? null : params.get('duration_to');
 	filters.total_gr_from =
-		params.get('total_gr_from') == '' ? null : params.get('total_gr_from'); // is the string "Jonathan"
+		params.get('total_gr_from') == '' ? null : params.get('total_gr_from');
 	filters.total_gr_to =
-		params.get('total_gr_to') == '' ? null : params.get('total_gr_to'); // is the string "Jonathan"
+		params.get('total_gr_to') == '' ? null : params.get('total_gr_to');
 	filters.olive_type =
-		params.get('olive_type') == '' ? null : params.get('olive_type'); // is the string "Jonathan"
+		params.get('olive_type') == '' ? null : params.get('olive_type');
 
 	return filters;
 }

@@ -2,7 +2,10 @@ export async function getReports(
 	res,
 	connection,
 	user,
-	pagination,
+	pagination = {
+		page: 0,
+		size: 0,
+	},
 	filters = {
 		date_from: null,
 		date_to: null,
@@ -18,53 +21,60 @@ export async function getReports(
 	const pageNumber = pagination.page || 1; // Get the current page number from the query parameters
 	const pageSize = pagination.size || 10; // Number of items per page
 
-	let getQuery = `SELECT * FROM weighings WHERE user=${user.id} AND deleted_at IS NULL`;
+	let getQuery = `SELECT w.*, u.username, u.first_name, u.last_name FROM weighings w 
+	LEFT JOIN users u ON u.id = w.user WHERE user=${user.id} AND w.deleted_at IS NULL`;
 
 	if (admin) {
-		getQuery = `SELECT * FROM weighings WHERE deleted_at IS NULL`;
+		getQuery = `SELECT w.*, u.username, u.first_name, u.last_name FROM weighings w 
+		LEFT JOIN users u ON u.id = w.user WHERE w.deleted_at IS NULL`;
 	}
 
 	let filter = false;
 
+	if (filters.username != null) {
+		filter = true;
+		getQuery += ` AND u.username = "${filters.username}"`;
+	}
+
 	if (filters.date_from != null && filters.date_to != null) {
 		filter = true;
-		getQuery += ` AND start_date >= "${filters.date_from}" AND start_date <= "${filters.date_to}"`;
+		getQuery += ` AND w.start_date >= "${filters.date_from}" AND w.start_date <= "${filters.date_to}"`;
 	} else if (filters.date_from != null) {
 		filter = true;
-		getQuery += ` AND start_date >= "${filters.date_from}"`;
+		getQuery += ` AND w.start_date >= "${filters.date_from}"`;
 	} else if (filters.date_to != null) {
 		filter = true;
-		getQuery += ` AND start_date <= "${filters.date_to}" `;
+		getQuery += ` AND w.start_date <= "${filters.date_to}" `;
 	}
 
 	if (filters.duration_from != null && filters.duration_to != null) {
 		filter = true;
-		getQuery += ` AND duration >= "${filters.duration_from}" AND duration <= "${filters.duration_to}"`;
+		getQuery += ` AND w.duration >= "${filters.duration_from}" AND w.duration <= "${filters.duration_to}"`;
 	} else if (filters.duration_from != null) {
 		filter = true;
-		getQuery += ` AND duration >= "${filters.duration_from}"`;
+		getQuery += ` AND w.duration >= "${filters.duration_from}"`;
 	} else if (filters.duration_to != null) {
 		filter = true;
-		getQuery += ` AND duration <= "${filters.duration_to}"`;
+		getQuery += ` AND w.duration <= "${filters.duration_to}"`;
 	}
 
 	if (filters.total_gr_from != null && filters.total_gr_to != null) {
 		filter = true;
-		getQuery += ` AND total_gr >= "${filters.total_gr_from}" AND total_gr <= "${filters.total_gr_to}"`;
+		getQuery += ` AND w.total_gr >= "${filters.total_gr_from}" AND w.total_gr <= "${filters.total_gr_to}"`;
 	} else if (filters.total_gr_from != null) {
 		filter = true;
-		getQuery += ` AND total_gr >= "${filters.total_gr_from}"`;
+		getQuery += ` AND w.total_gr >= "${filters.total_gr_from}"`;
 	} else if (filters.total_gr_to != null) {
 		filter = true;
-		getQuery += ` AND total_gr <= "${filters.total_gr_to}"`;
+		getQuery += ` AND w.total_gr <= "${filters.total_gr_to}"`;
 	}
 
 	if (filters.olive_type != null) {
 		filter = true;
-		getQuery += ` AND olive_type = "${filters.olive_type}"`;
+		getQuery += ` AND w.olive_type = "${filters.olive_type}"`;
 	}
 
-	getQuery += ' ORDER BY start_date DESC';
+	getQuery += ' ORDER BY w.start_date DESC';
 
 	if (!filter) {
 		if (pageNumber > 1) {
@@ -73,7 +83,6 @@ export async function getReports(
 			getQuery += ` LIMIT 0, ${pageSize}`;
 		}
 	}
-
 	connection.query(getQuery, async function (error, reportsResults, fields) {
 		// When done with the connection, release it.
 
@@ -102,6 +111,29 @@ export async function getReports(
 
 			res.sendStatus(404);
 		}
+	});
+}
+export async function getReportsByYear(
+	res,
+	connection,
+	user,
+	firstYear,
+	secondYear
+) {
+	let query = `SELECT * FROM weighings WHERE YEAR(start_date) IN (${firstYear}) AND user=${user.id};`;
+	query += `SELECT * FROM weighings WHERE YEAR(start_date) IN (${secondYear}) AND user=${user.id}`;
+
+	connection.query(query, async function (error, reportsResults, fields) {
+		// When done with the connection, release it.
+		connection.release();
+
+		// Handle error after the release.
+		if (error) throw error;
+
+		res.json({
+			firstYear: { year: firstYear, results: reportsResults[0] },
+			secondYear: { year: secondYear, results: reportsResults[1] },
+		});
 	});
 }
 

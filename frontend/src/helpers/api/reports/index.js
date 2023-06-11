@@ -52,6 +52,19 @@ export async function getReports(data) {
 	return response.json();
 }
 
+export async function getReportsByYear(data) {
+	const url = endPoint + '/api/reports/compare';
+
+	const response = await fetch(url, {
+		method: 'POST',
+		headers: { 'Content-type': 'application/json' },
+		body: JSON.stringify(data),
+	});
+	if (!response.ok) throw new Error(500);
+
+	return response.json();
+}
+
 export async function deleteReports(reportsIds) {
 	try {
 		const url = endPoint + '/api/reports/';

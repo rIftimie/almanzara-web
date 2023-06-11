@@ -6,7 +6,7 @@ import express from 'express';
 const router = express.Router();
 
 // POST: Log in User
-router.post('/api/auth', async (req, res) => {
+router.post('/', async (req, res) => {
 	const { username, password } = req.body;
 
 	pool.getConnection(function (err, connection) {

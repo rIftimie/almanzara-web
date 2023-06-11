@@ -110,13 +110,10 @@ export async function findUserById(res, connection, userId) {
 	});
 }
 
-export async function deleteUser(res, connection, userIds) {
-	const query =
-		'UPDATE users SET deleted_at = NOW() WHERE id IN (' +
-		userIds.toString() +
-		')';
+export async function deleteUser(res, connection, userId) {
+	const query = `UPDATE users SET deleted_at = NOW() WHERE id = ${userId}`;
 
-	// Use the connection
+	// Use the connections
 	connection.query(query, function (error, results, fields) {
 		// When done with the connection, release it.
 		connection.release();
@@ -124,6 +121,6 @@ export async function deleteUser(res, connection, userIds) {
 		// Handle error after the release.
 		if (error) throw error;
 
-		res.json(results);
+		res.sendStatus(200);
 	});
 }

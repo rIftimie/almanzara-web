@@ -47,14 +47,12 @@ export async function updateUser(user) {
 	}
 }
 
-export async function deleteUser(userIds) {
+export async function deleteUser(userId) {
 	try {
-		const url = endPoint + '/api/user/';
-
+		const url = endPoint + '/api/user/' + userId;
 		const response = await fetch(url, {
 			method: 'DELETE',
 			headers: { 'Content-type': 'application/json' },
-			body: JSON.stringify(userIds),
 		});
 		if (!response.ok) throw new Error(500);
 

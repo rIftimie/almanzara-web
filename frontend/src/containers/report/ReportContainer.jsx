@@ -17,10 +17,6 @@ const ReportContainer = () => {
 	const { user } = useUserContext();
 
 	const navigate = useNavigate();
-	// Check if user is logged in
-	if (!user) {
-		navigate('/login');
-	}
 
 	// useStates
 	const [reports, setReports] = useState({ count: 0, results: null });
@@ -38,6 +34,11 @@ const ReportContainer = () => {
 	}
 
 	useEffect(() => {
+		// Check if user is logged in
+		if (!user) {
+			navigate('/login');
+		}
+
 		async function handleLoadReports() {
 			const data = await getReports({
 				user,
