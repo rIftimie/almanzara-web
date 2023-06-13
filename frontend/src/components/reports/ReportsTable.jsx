@@ -25,7 +25,7 @@ const ReportsTable = ({ reports }) => {
 						<th className="p-2">REALIZADO POR</th>
 						<th className="p-2">FECHA</th>
 						<th className="p-2">DURACION</th>
-						<th className="p-2">PESO TOTAL</th>
+						<th className="p-2">PESO TOTAL(kg)</th>
 						<th className="p-2">TIPO DE OLIVA</th>
 						<th className="p-2">ACCIONES</th>
 					</tr>

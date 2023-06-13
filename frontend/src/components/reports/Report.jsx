@@ -1,4 +1,4 @@
-import { useLoaderData } from 'react-router-dom';
+import { NavLink, useLoaderData } from 'react-router-dom';
 import { formatDate } from 'src/helpers';
 
 import './Report.css';
@@ -42,6 +42,14 @@ const Report = () => {
 									{report.olive_type}
 								</div>
 							</div>
+						</section>
+						<section className="flex justify-end">
+							<NavLink
+								className="p-1 font-bold text-black bg-white"
+								to="update"
+							>
+								ACTUALIZAR
+							</NavLink>
 						</section>
 					</section>
 				</main>

@@ -54,7 +54,7 @@ const ReportPDF = ({ report }) => {
 					<View style={styles.sectionRow}>
 						<View style={styles.sectionRow30}>
 							<Text>TOTAL (gr)</Text>
-							<Text>{report.total_gr}</Text>
+							<Text>{report.total_gr / 1000}</Text>
 						</View>
 						<View style={styles.sectionRowTime}>
 							<View style={styles.sectionRowTimeSection}>

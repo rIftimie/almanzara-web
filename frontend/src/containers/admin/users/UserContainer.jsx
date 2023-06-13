@@ -22,21 +22,21 @@ const UserContainer = () => {
 		loading = false;
 	}
 
+	async function handleLoadUsers() {
+		const response = await getAllUsers({
+			user,
+			pagination: { page: pageNumber, size: pageSize },
+		});
+		setUsers(response);
+	}
+
 	useEffect(() => {
 		// Check if user is logged in
 		if (!user || !user.roles.includes('ROLE_ADMIN')) {
 			navigate('/login');
+		} else {
+			handleLoadUsers();
 		}
-
-		async function handleLoadUsers() {
-			const response = await getAllUsers({
-				user,
-				pagination: { page: pageNumber, size: pageSize },
-			});
-			setUsers(response);
-		}
-
-		handleLoadUsers();
 	}, [pageNumber]);
 
 	return (

@@ -33,21 +33,21 @@ const ReportContainer = () => {
 		isLoading = false;
 	}
 
+	async function handleLoadReports() {
+		const data = await getReports({
+			user,
+			pagination: { page: pageNumber, size: pageSize },
+		});
+		setReports(data);
+	}
+
 	useEffect(() => {
 		// Check if user is logged in
-		if (!user) {
+		if (user == null) {
 			navigate('/login');
+		} else {
+			handleLoadReports();
 		}
-
-		async function handleLoadReports() {
-			const data = await getReports({
-				user,
-				pagination: { page: pageNumber, size: pageSize },
-			});
-			setReports(data);
-		}
-
-		handleLoadReports();
 	}, [pageNumber]);
 
 	return (
