@@ -1,6 +1,6 @@
 import { NavLink, useLocation } from 'react-router-dom';
 import { useUserContext } from '../../context/UserContext';
-import almanzaraLogo from '../../assets/logo35x35.svg';
+import almazaraLogo from '../../assets/logo35x35.svg';
 import './Navbar.css';
 import { useRef } from 'react';
 
@@ -21,11 +21,11 @@ const Navbar = () => {
 						className="flex items-center h-full text-lg whitespace-nowrap font-header"
 					>
 						<img
-							src={almanzaraLogo}
+							src={almazaraLogo}
 							className="mr-1"
-							alt="almanzara-conectada-logo"
+							alt="almazara-conectada-logo"
 						/>
-						Almanzara Conectada
+						Almazara Conectada
 					</NavLink>
 				</div>
 				<ul

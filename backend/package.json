@@ -1,8 +1,8 @@
 {
 	"type": "module",
-	"name": "almanzara-server",
+	"name": "almazara-server",
 	"version": "1.0.0",
-	"description": "Almanzara Conectada NodeJS Server",
+	"description": "Almazara Conectada NodeJS Server",
 	"main": "index.js",
 	"scripts": {
 		"start": "node index.js",

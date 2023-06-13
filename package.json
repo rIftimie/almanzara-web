@@ -1,5 +1,5 @@
 {
-	"name": "almanzara-web",
+	"name": "almazara-web",
 	"version": "1.0.0",
 	"description": "",
 	"main": "index.js",
@@ -9,12 +9,12 @@
 	},
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/rIftimie/almanzara-web.git"
+		"url": "git+https://github.com/rIftimie/almazara-web.git"
 	},
 	"author": "",
 	"license": "ISC",
 	"bugs": {
-		"url": "https://github.com/rIftimie/almanzara-web/issues"
+		"url": "https://github.com/rIftimie/almazara-web/issues"
 	},
-	"homepage": "https://github.com/rIftimie/almanzara-web#readme"
+	"homepage": "https://github.com/rIftimie/almazara-web#readme"
 }

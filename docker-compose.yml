@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   backend:
-    container_name: almanzara-backend
+    container_name: almazara-backend
     build: ./backend
     restart: unless-stopped
     env_file: ./.env
@@ -12,7 +12,7 @@ services:
       - RDS_HOST=database-1.cettw0uuspvz.us-east-1.rds.amazonaws.com
       - RDS_USERNAME=d3vel0p3r
       - RDS_PASSWORD=developer
-      - RDS_DATABASE=almanzara_dev
+      - RDS_DATABASE=almazara_dev
       - RDS_PORT=3306
       - CLIENT_ORIGIN=$CLIENT_ORIGIN
     networks:
@@ -20,7 +20,7 @@ services:
       - frontend
 
   frontend:
-    container_name: almanzara-frontend
+    container_name: almazara-frontend
     depends_on:
       - backend
     build:

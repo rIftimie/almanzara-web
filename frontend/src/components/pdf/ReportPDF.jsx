@@ -26,7 +26,7 @@ const ReportPDF = ({ report }) => {
 					<Text>-LOGO- ALMANZARA CONECTADA S.L</Text>
 				</View>
 				<View style={styles.divideHalf}>
-					<Text>Dehesa de la Almanzara s/n</Text>
+					<Text>Dehesa de la Almazara s/n</Text>
 					<Text>TLF: 678876678</Text>
 				</View>
 				<View style={styles.divideHalf}>
@@ -34,7 +34,7 @@ const ReportPDF = ({ report }) => {
 				</View>
 				<View style={styles.divideHalf}>
 					<Text>CIF: G91984864</Text>
-					<Text>N. Idtf Almanzara: 49 / 182.99142</Text>
+					<Text>N. Idtf Almazara: 49 / 182.99142</Text>
 				</View>
 				<View style={styles.divide}>
 					<Text>Campaña: 2022/2023</Text>
