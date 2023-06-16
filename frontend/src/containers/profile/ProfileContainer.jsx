@@ -7,7 +7,7 @@ import './ProfileContainer.css';
 const ProfileContainer = () => {
 	const { user } = useUserContext();
 	const navigate = useNavigate();
-
+	console.log(user);
 	useEffect(() => {
 		if (!user) {
 			navigate('/login');

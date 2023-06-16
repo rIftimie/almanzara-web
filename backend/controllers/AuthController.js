@@ -2,7 +2,7 @@ import bcrypt from 'bcrypt';
 
 export async function logIn(connection, username, password, res) {
 	// Create Query
-	const query = `SELECT id, password, username, first_name, last_name, roles, created_at, updated_at FROM users WHERE username="${username}" AND deleted_at IS NULL`;
+	const query = `SELECT id, password, username, email, first_name, last_name, roles, created_at, updated_at FROM users WHERE username="${username}" AND deleted_at IS NULL`;
 
 	// Use the connection
 	connection.query(query, function (error, results, fields) {

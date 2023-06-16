@@ -1,37 +1,37 @@
 version: '3.8'
 
 services:
+  mysql:
+    container_name: almazara-mysql
+    image: mysql:8
+    environment:
+      - MYSQL_ROOT_PASSWORD=$MYSQLDB_ROOT_PASSWORD
+      - MYSQL_DATABASE=$MYSQLDB_DATABASE
+    ports:
+      - $MYSQLDB_LOCAL_PORT:$MYSQLDB_DOCKER_PORT
+    volumes:
+      - ./mysql:/docker-entrypoint-initdb.d/
+      - db:/var/lib/mysql
+    networks:
+      - default
+
   backend:
     container_name: almazara-backend
     build: ./backend
-    restart: unless-stopped
-    env_file: ./.env
     ports:
-      - '5000:5000'
-    environment:
-      - RDS_HOST=database-1.cettw0uuspvz.us-east-1.rds.amazonaws.com
-      - RDS_USERNAME=d3vel0p3r
-      - RDS_PASSWORD=developer
-      - RDS_DATABASE=almazara_dev
-      - RDS_PORT=3306
-      - CLIENT_ORIGIN=$CLIENT_ORIGIN
+      - '4000:4000'
     networks:
-      - backend
-      - frontend
+      - default
 
   frontend:
     container_name: almazara-frontend
+    build: ./frontend
     depends_on:
       - backend
-    build:
-      context: ./frontend
-      args:
-        - REACT_APP_API_BASE_URL=$CLIENT_API_BASE_URL
     ports:
-      - '3000:3000'
+      - '5173:5173'
     networks:
-      - frontend
+      - default
 
-networks:
-  backend:
-  frontend:
+volumes:
+  db:

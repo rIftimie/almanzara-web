@@ -1,20 +1,14 @@
 # Stage 1
-FROM node:18 as build-stage
+FROM node:18-alpine
 
-WORKDIR /frontend
+WORKDIR /app
+
 COPY package.json .
+
 RUN npm install
+
 COPY . .
 
-ARG REACT_APP_API_BASE_URL
-ENV REACT_APP_API_BASE_URL=$REACT_APP_API_BASE_URL
+EXPOSE 5173
 
-RUN npm run build
-
-# Stage 2
-FROM nginx:1.17.0-alpine
-
-COPY --from=build-stage /frontend/dist /usr/share/nginx/html
-EXPOSE $REACT_DOCKER_PORT
-
-CMD nginx -g 'daemon off;'
+CMD ["npm", "run", "dev", "--", "--host"]

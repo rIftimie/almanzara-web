@@ -21,7 +21,7 @@ const ReportsTable = ({ reports }) => {
 								onClick={() => selectAllReports()}
 							/>
 						</th>
-						<th className="p-2">ID</th>
+						<th className="p-2">N. TICKET</th>
 						<th className="p-2">REALIZADO POR</th>
 						<th className="p-2">FECHA</th>
 						<th className="p-2">DURACION</th>

@@ -1,5 +1,3 @@
-import { getURLParamsFilters } from 'src/helpers';
-
 const endPoint = import.meta.env.VITE_API_URL;
 
 export async function createReport(report) {
@@ -36,10 +34,6 @@ export async function updateReport(report) {
 }
 
 export async function getReports(data) {
-	// Get Filters from URL Parameters
-	let params = new URLSearchParams(document.location.search);
-	data.filters = getURLParamsFilters(params);
-
 	const url = endPoint + '/api/reports';
 
 	const response = await fetch(url, {

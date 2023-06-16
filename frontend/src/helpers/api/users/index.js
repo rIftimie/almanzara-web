@@ -15,7 +15,7 @@ export async function getAllUsers(data) {
 
 export async function createUser(user) {
 	try {
-		const url = endPoint + '/api/users';
+		const url = endPoint + '/api/user';
 
 		const response = await fetch(url, {
 			method: 'PUT',

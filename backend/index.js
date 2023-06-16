@@ -13,23 +13,19 @@ import {
 const app = express();
 app.use(bodyParser.json());
 
-// Variables
-const PORT = process.env.PORT || 3000;
-
-// Build Static Web Application:
-app.use('/', express.static('../frontend/dist'));
-
-// Report
+// Reports
 app.use('/api/reports', reportsRouter);
 app.use('/api/report', reportRouter);
 
-// User
+// Users
 app.use('/api/users', usersRouter);
 app.use('/api/user', userRouter);
 
 // Authentication
 app.use('/api/auth', authRouter);
 
+// Set port, listen for requests
+const PORT = 4000;
 app.listen(PORT, () => {
 	console.log(`Server is running on port ${PORT}.`);
 });

@@ -1,17 +1,51 @@
 import { NavLink } from 'react-router-dom';
+import { useUserContext } from 'src/context/UserContext';
+import { getReports } from 'src/helpers/api/reports';
+import { useForm } from 'react-hook-form';
 
-const ReportsFilter = ({ showFilter }) => {
+const ReportsFilter = ({ showFilter, useStateReports }) => {
+	const { user } = useUserContext();
+	const [reports, setReports] = useStateReports;
+
+	const {
+		register,
+		handleSubmit,
+		watch,
+		formState: { errors },
+	} = useForm();
+
+	async function handleFilterReports(filters) {
+		for (let key in filters) {
+			if (filters[key] == '' || filters[key] == ' ') {
+				filters[key] = null;
+			}
+		}
+		const data = await getReports({
+			user,
+			filters,
+		});
+		setReports(data);
+	}
+
+	function onSubmit(data) {
+		handleFilterReports(data);
+	}
+
 	return (
 		<>
 			{showFilter && (
 				<aside className="sm:w-1/3 bg-testPrimary-200">
-					<form className="flex flex-col p-4 text-sm reports-filter">
+					<form
+						onSubmit={handleSubmit(onSubmit)}
+						className="flex flex-col p-4 text-sm reports-filter"
+					>
 						<label htmlFor="dateFrom">
 							Nombre de usuario:
 							<input
 								className="px-2 rounded-full"
 								type="text"
 								name="username"
+								{...register('username')}
 							/>
 						</label>
 						<label htmlFor="dateFrom">
@@ -21,6 +55,7 @@ const ReportsFilter = ({ showFilter }) => {
 								type="date"
 								placeholder="DD-MM-YYYY"
 								name="date_from"
+								{...register('date_from')}
 							/>
 						</label>
 						<label htmlFor="dateTo">
@@ -30,6 +65,7 @@ const ReportsFilter = ({ showFilter }) => {
 								type="date"
 								placeholder="DD-MM-YYYY"
 								name="date_to"
+								{...register('date_to')}
 							/>
 						</label>
 						<label htmlFor="durationFrom">
@@ -39,6 +75,7 @@ const ReportsFilter = ({ showFilter }) => {
 								placeholder="HH:MM"
 								type="text"
 								name="duration_from"
+								{...register('duration_from')}
 							/>
 							hasta
 							<input
@@ -46,6 +83,7 @@ const ReportsFilter = ({ showFilter }) => {
 								placeholder="HH:MM"
 								type="text"
 								name="duration_to"
+								{...register('duration_to')}
 							/>
 						</label>
 						<label htmlFor="durationTo">
@@ -54,12 +92,14 @@ const ReportsFilter = ({ showFilter }) => {
 								className="px-2 w-1/6 rounded-full"
 								type="text"
 								name="total_gr_from"
+								{...register('total_gr_from')}
 							/>
 							hasta
 							<input
 								className="px-2 w-1/6 rounded-full"
 								type="text"
 								name="total_gr_to"
+								{...register('total_gr_to')}
 							/>
 						</label>
 						<label htmlFor="oliveType">
@@ -68,6 +108,7 @@ const ReportsFilter = ({ showFilter }) => {
 								id="oliveType"
 								className="px-2 bg-white rounded-xl"
 								name="olive_type"
+								{...register('olive_type')}
 							>
 								<option value=" " selected disabled hidden></option>
 								<option value="suelo">Suelo</option>
